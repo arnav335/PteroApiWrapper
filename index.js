@@ -1,7 +1,7 @@
 const axios = require('axios')
 let apiKey = '';
 let ServerID= ''
-let PanelUrl
+let PanelUrl = ''
 
 function createheaderObject(){
     return {'Accept': 'application/json',
@@ -93,23 +93,30 @@ async function putreq(path,body,work){
 }
 
 
-  const mymodule = {
-    setPanelUrl: function(url){
-        PanelUrl= url;
-        mymodule.application=createApplicationObject();
-    },
-    application: '',
-    setapikey: function(key){
-        apiKey= key;
-        mymodule.header=createheaderObject();
-    },
-    header: '',
-    setServerID: function(id){
-        ServerID= id;
-        mymodule.client=createclientObject();
-    },
-    client: '',
-    getreq: getreq,
+  const wrapper = {
+    application: null,
+    header: null,
+    client:  null,
+    start: function(panelURL, apiKEY, ServerId) {
+        PanelUrl = panelURL;
+        apiKey = apiKEY;
+        if (ServerId) {
+            ServerID = ServerId;
+        }
 
+        mymodule.client = createclientObject();
+        mymodule.header = createheaderObject();
+        mymodule.application = createApplicationObject();
+
+        return {
+            get: getreq,
+            put: putreq,
+            delete: deletereq,
+            post: postreq,
+            client: mymodule.client,
+            header: mymodule.header,
+            application: mymodule.application
+        };
+    }
   }
-  module.exports = mymodule;
+  module.exports = wrapper;
