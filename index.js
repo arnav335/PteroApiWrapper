@@ -104,18 +104,18 @@ async function putreq(path,body,work){
             ServerID = ServerId;
         }
 
-        mymodule.client = createclientObject();
-        mymodule.header = createheaderObject();
-        mymodule.application = createApplicationObject();
+        wrapper.client = createclientObject();
+        wrapper.header = createheaderObject();
+        wrapper.application = createApplicationObject();
 
         return {
             get: getreq,
             put: putreq,
             delete: deletereq,
             post: postreq,
-            client: mymodule.client,
-            header: mymodule.header,
-            application: mymodule.application
+            client: wrapper.client,
+            header: wrapper.header,
+            application: wrapper.application
         };
     }
   }
